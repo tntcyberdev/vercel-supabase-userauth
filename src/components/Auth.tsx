@@ -1,18 +1,20 @@
-// src/components/Auth.tsx
+import { FC } from 'react'
 import { supabase } from '../supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 
-const Auth = () => {
+const Auth: FC = () => {
   const handleGoogleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
-        },
+          redirectTo: window.location.origin
+        }
       })
       if (error) throw error
     } catch (error) {
-      alert('Error signing in with Google: ' + (error as Error).message)
+      const e = error as AuthError
+      alert('Error signing in with Google: ' + e.message)
     }
   }
 
